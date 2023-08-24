@@ -17,4 +17,4 @@
 
        - name: SSH into AWS Instance
          run: |
-           ssh -o StrictHostKeyChecking=no ec2-54-88-127-217.compute-1.amazonaws.com 'ls -l'
+           ssh -o StrictHostKeyChecking=no 54-88-127-217 'ls -l'

@@ -1,20 +1,23 @@
- name: SSH into AWS Instance
+name: Run command on server
 
- on: [push]
+on:
+  push:
+    branches: [ main ]
 
- jobs:
-   deploy:
-     runs-on: ubuntu-latest
+jobs:
+  run-command:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-     steps:
-       - name: Checkout code
-         uses: actions/checkout@v2
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.1
+        with:
+           ssh-private-key: ${{ secrets.SSH_KEY }}
 
-       - name: Set up SSH
-         uses: webfactory/ssh-agent@v0.5.1
-         with:
-           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Authenticate into server
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_IP }} 'ls -l'
 
-       - name: SSH into AWS Instance
-         run: |
-           ssh -o StrictHostKeyChecking=no 54.88.127.217 'ls -l'
+      - name: Do something in the server
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_IP }} 'echo "Hello World!"'

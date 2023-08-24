@@ -17,4 +17,4 @@
 
        - name: SSH into AWS Instance
          run: |
-           ssh -o StrictHostKeyChecking=no 54-88-127-217 'ls -l'
+           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_PUBLIC_KEY }} 'ls -l'
